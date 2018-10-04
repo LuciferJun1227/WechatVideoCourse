@@ -1,6 +1,7 @@
 ﻿using Senparc.Weixin;
 using Senparc.Weixin.Cache;
 using Senparc.Weixin.Cache.Redis;
+using SenparcClass.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,10 @@ namespace SenparcClass
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+
+            Senparc.WebSocket.WebSocketConfig.RegisterRoutes(RouteTable.Routes);
+            Senparc.WebSocket.WebSocketConfig.RegisterMessageHandler<CustomWebSocketMessageHandler>();
+
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
@@ -67,6 +72,9 @@ namespace SenparcClass
 
             Senparc.Weixin.MP.Containers.AccessTokenContainer.Register(appId, appSecret, "微信公众号测试号-Jeffrey");
             Senparc.Weixin.MP.Containers.AccessTokenContainer.Register("APPID2", "APPSECRET2", "微信公众号测试号-Bob");//可以注册多个公众号
+
+            //小程序
+            Senparc.Weixin.MP.Containers.AccessTokenContainer.Register(SenparcClass.Service.Config.WxOpenAppId, SenparcClass.Service.Config.WxOpenAppSecret, "WX快速开发小程序");
 
             //Senparc.Weixin.MP.Containers.JsApiTicketContainer.Register(appId, appSecret, "微信公众号测试号-Jeffrey-JsApiTicket");
         }
